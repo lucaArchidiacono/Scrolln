@@ -11,15 +11,16 @@ import IOKit.usb
 import IOKit.hid
 
 struct CurrentDevice: Identifiable {
-    let id = UUID()
-    let name: String
+    var id = UUID()
+    var name: String
+    var enabled: Bool
 }
 
 class USBDelegate: USBWatcherDelegate, ObservableObject {
     private var usbWatcher: USBWatcher!
 
     @Published var currentDevices = [CurrentDevice]()
-    var nonNaturalScrollingDevices: [String] = ["Logitech", "USB Receiver"]
+    @Published var nonNaturalScrollingDevices = [String]()
 
     init() {
         self.usbWatcher = USBWatcher(delegate: self)
@@ -28,24 +29,28 @@ class USBDelegate: USBWatcherDelegate, ObservableObject {
     internal func deviceAdded(_ device: io_object_t) {
         guard let deviceName = device.name() else { return }
         print("device added: \(deviceName)")
-        currentDevices.append(CurrentDevice(name: deviceName))
-        nonNaturalScrollingDevices.forEach { nonNaturalScrollingDevice in
-            if deviceName.contains(nonNaturalScrollingDevice) {
-                runAppleScript(enableScrolling: 1)
-            }
+        if nonNaturalScrollingDevices.contains(deviceName) {
+            currentDevices.append(CurrentDevice(name: deviceName, enabled: true))
+            updateSystemPreferences(deviceName: deviceName, enableScrolling: 1)
+        } else {
+            currentDevices.append(CurrentDevice(name: deviceName, enabled: false))
         }
     }
 
     internal func deviceRemoved(_ device: io_object_t) {
         guard let deviceName = device.name() else { return }
         print("device removed: \(deviceName)")
+        currentDevices.removeAll(where: { $0.name == deviceName })
+        updateSystemPreferences(deviceName: deviceName, enableScrolling: 0)
+    }
+    
+    func updateSystemPreferences(deviceName: String, enableScrolling: Int) {
         nonNaturalScrollingDevices.forEach { nonNaturalScrollingDevice in
             if deviceName.contains(nonNaturalScrollingDevice) {
-                runAppleScript(enableScrolling: 0)
+                runAppleScript(enableScrolling: enableScrolling)
             }
         }
     }
-    
     
     private func runAppleScript(enableScrolling: Int) {
         let source =    """

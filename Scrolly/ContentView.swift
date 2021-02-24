@@ -8,21 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var usbDelegate = USBDelegate()
-
+    @ObservedObject var usbDelegate: USBDelegate
+    
     var body: some View {
-        List(usbDelegate.currentDevices) { device in
-            VStack(alignment: .leading) {
-                Text(device.name)
+        List {
+            ForEach(usbDelegate.currentDevices.indexed(), id: \.1.id) { index, device in
+                VStack(alignment: .leading) {
+                    HStack() {
+                        Text(device.name)
+                        Toggle("Natrual Scroll",
+                               isOn: self.$usbDelegate.currentDevices[index].enabled)
+                            .onChange(of: device.enabled) { value in
+                                if value {
+                                    usbDelegate.nonNaturalScrollingDevices.append(device.name)
+                                    usbDelegate.updateSystemPreferences(deviceName: device.name,
+                                                                        enableScrolling: 1)
+                                } else {
+                                    usbDelegate.updateSystemPreferences(deviceName: device.name,
+                                                                        enableScrolling: 0)
+                                }
+                            }
+                    }
+                }
             }
         }
-//        Text("Hello, Scroller!")
-//            .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }
