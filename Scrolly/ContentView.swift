@@ -12,25 +12,37 @@ struct ContentView: View {
     
     var body: some View {
         List {
-            ForEach(usbDelegate.currentDevices.indexed(), id: \.1.id) { index, device in
-                VStack(alignment: .leading) {
-                    HStack() {
-                        Text(device.name)
-                        Toggle("Natrual Scroll",
-                               isOn: self.$usbDelegate.currentDevices[index].enabled)
-                            .onChange(of: device.enabled) { value in
-                                if value {
-                                    usbDelegate.nonNaturalScrollingDevices.append(device.name)
-                                    usbDelegate.updateSystemPreferences(deviceName: device.name,
-                                                                        enableScrolling: 1)
-                                } else {
-                                    usbDelegate.updateSystemPreferences(deviceName: device.name,
-                                                                        enableScrolling: 0)
-                                }
-                            }
-                    }
-                }
+            ForEach(usbDelegate.currentDevices) { device in
+                DeviceView(usbDelegate: usbDelegate, device: device)
             }
         }
+    }
+}
+
+struct DeviceView: View {
+    @ObservedObject var usbDelegate: USBDelegate
+    let device: CurrentDevice
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack() {
+                Text(device.name)
+                Spacer()
+                Toggle("Natrual Scroll",
+                       isOn: $usbDelegate.isNonNaturalScrollable)
+                    .onChange(of: usbDelegate.isNonNaturalScrollable) { value in
+                        if value {
+                            usbDelegate.nonNaturalScrollingDevices.append(device.name)
+                            usbDelegate.updateSystemPreferences(deviceName: device.name,
+                                                                enableScrolling: 1)
+                        } else {
+                            usbDelegate.updateSystemPreferences(deviceName: device.name,
+                                                                enableScrolling: 0)
+                            usbDelegate.nonNaturalScrollingDevices.removeAll(where: { $0 == device.name })
+                        }
+                    }
+            }
+        }
+        Divider()
     }
 }

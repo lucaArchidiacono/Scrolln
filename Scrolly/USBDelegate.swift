@@ -13,7 +13,6 @@ import IOKit.hid
 struct CurrentDevice: Identifiable {
     var id = UUID()
     var name: String
-    var enabled: Bool
 }
 
 class USBDelegate: USBWatcherDelegate, ObservableObject {
@@ -21,6 +20,7 @@ class USBDelegate: USBWatcherDelegate, ObservableObject {
 
     @Published var currentDevices = [CurrentDevice]()
     @Published var nonNaturalScrollingDevices = [String]()
+    @Published var isNonNaturalScrollable = false
 
     init() {
         self.usbWatcher = USBWatcher(delegate: self)
@@ -30,18 +30,25 @@ class USBDelegate: USBWatcherDelegate, ObservableObject {
         guard let deviceName = device.name() else { return }
         print("device added: \(deviceName)")
         if nonNaturalScrollingDevices.contains(deviceName) {
-            currentDevices.append(CurrentDevice(name: deviceName, enabled: true))
-            updateSystemPreferences(deviceName: deviceName, enableScrolling: 1)
+            isNonNaturalScrollable = true
+            currentDevices.append(CurrentDevice(name: deviceName))
+            updateSystemPreferences(deviceName: deviceName,
+                                    enableScrolling: 1)
         } else {
-            currentDevices.append(CurrentDevice(name: deviceName, enabled: false))
+            currentDevices.append(CurrentDevice(name: deviceName))
         }
     }
 
     internal func deviceRemoved(_ device: io_object_t) {
         guard let deviceName = device.name() else { return }
         print("device removed: \(deviceName)")
-        currentDevices.removeAll(where: { $0.name == deviceName })
-        updateSystemPreferences(deviceName: deviceName, enableScrolling: 0)
+        if nonNaturalScrollingDevices.contains(deviceName) {
+            currentDevices.removeAll(where: { $0.name == deviceName })
+            updateSystemPreferences(deviceName: deviceName,
+                                    enableScrolling: 0)
+        } else {
+            currentDevices.removeAll(where: { $0.name == deviceName })
+        }
     }
     
     func updateSystemPreferences(deviceName: String, enableScrolling: Int) {
