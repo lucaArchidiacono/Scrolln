@@ -17,6 +17,7 @@
 		8152DAD925C861FB00F690AB /* ScrollyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152DAD825C861FB00F690AB /* ScrollyUITests.swift */; };
 		8152DAEB25C862FA00F690AB /* USBWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152DAEA25C862FA00F690AB /* USBWatcher.swift */; };
 		8152DAF025C8632A00F690AB /* IOObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152DAEF25C8632A00F690AB /* IOObjectExtension.swift */; };
+		8152DAF525C863C600F690AB /* USBDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152DAF425C863C600F690AB /* USBDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		8152DADA25C861FB00F690AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8152DAEA25C862FA00F690AB /* USBWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USBWatcher.swift; sourceTree = "<group>"; };
 		8152DAEF25C8632A00F690AB /* IOObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOObjectExtension.swift; sourceTree = "<group>"; };
+		8152DAF425C863C600F690AB /* USBDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USBDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				8152DAC425C861FB00F690AB /* Scrolly.entitlements */,
 				8152DAB825C861FA00F690AB /* Scrolly.xcdatamodeld */,
 				8152DABD25C861FB00F690AB /* Preview Content */,
+				8152DAF425C863C600F690AB /* USBDelegate.swift */,
 			);
 			path = Scrolly;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				8152DAB725C861FA00F690AB /* ContentView.swift in Sources */,
 				8152DABA25C861FA00F690AB /* Scrolly.xcdatamodeld in Sources */,
 				8152DAB525C861FA00F690AB /* AppDelegate.swift in Sources */,
+				8152DAF525C863C600F690AB /* USBDelegate.swift in Sources */,
 				8152DAF025C8632A00F690AB /* IOObjectExtension.swift in Sources */,
 				8152DAEB25C862FA00F690AB /* USBWatcher.swift in Sources */,
 			);
