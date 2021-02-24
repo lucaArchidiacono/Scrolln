@@ -11,9 +11,14 @@ struct ContentView: View {
     @ObservedObject var usbDelegate: USBDelegate
     
     var body: some View {
-        List {
-            ForEach(usbDelegate.currentDevices) { device in
-                DeviceView(usbDelegate: usbDelegate, device: device)
+        if usbDelegate.currentDevices.isEmpty {
+            Text("It seems like there are no devices connected to your Mac 🧐")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            List {
+                ForEach(usbDelegate.currentDevices) { device in
+                    DeviceView(usbDelegate: usbDelegate, device: device)
+                }
             }
         }
     }
