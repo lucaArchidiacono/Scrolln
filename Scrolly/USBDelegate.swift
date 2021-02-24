@@ -10,64 +10,60 @@ import IOKit
 import IOKit.usb
 import IOKit.hid
 
-class USBDelegate: USBWatcherDelegate {
+struct CurrentDevice: Identifiable {
+    let id = UUID()
+    let name: String
+}
+
+class USBDelegate: USBWatcherDelegate, ObservableObject {
     private var usbWatcher: USBWatcher!
-    
-    private enum Devices: String {
-        case Logitech
-    }
-    
+
+    @Published var currentDevices = [CurrentDevice]()
+    var nonNaturalScrollingDevices: [String] = ["Logitech", "USB Receiver"]
+
     init() {
-        usbWatcher = USBWatcher(delegate: self)
+        self.usbWatcher = USBWatcher(delegate: self)
     }
     
     internal func deviceAdded(_ device: io_object_t) {
-        print("device added: \(device.name() ?? "<unknown>")")
-        if let deviceName = device.name(), deviceName.contains(Devices.Logitech.rawValue) {
-            let disableNaturalScrolling =   """
-                                                try
-                                                    tell application "System Preferences"
-                                                        set current pane to pane "com.apple.preference.trackpad"
-                                                    end tell
-                                                    tell application "System Events"
-                                                        tell process "System Preferences"
-                                                            delay 0.6
-                                                            set checkBoxOne to checkbox 1 of tab group 1 of window "Trackpad"
-                                                            click radio button "Scroll & Zoom" of tab group 1 of window "Trackpad"
-                                                            tell checkBoxOne to if value is 1 then click
-                                                            tell application "System Preferences" to quit
-                                                        end tell
-                                                    end tell
-                                                end try
-                                            """
-            runAppleScript(source: disableNaturalScrolling)
+        guard let deviceName = device.name() else { return }
+        print("device added: \(deviceName)")
+        currentDevices.append(CurrentDevice(name: deviceName))
+        nonNaturalScrollingDevices.forEach { nonNaturalScrollingDevice in
+            if deviceName.contains(nonNaturalScrollingDevice) {
+                runAppleScript(enableScrolling: 1)
+            }
         }
     }
+
     internal func deviceRemoved(_ device: io_object_t) {
-        print("device removed: \(device.name() ?? "<unknown>")")
-        if let deviceName = device.name(), deviceName.contains(Devices.Logitech.rawValue) {
-            let enableNaturalScrolling =    """
-                                                try
-                                                    tell application "System Preferences"
-                                                        set current pane to pane "com.apple.preference.trackpad"
-                                                    end tell
-                                                    tell application "System Events"
-                                                        tell process "System Preferences"
-                                                            delay 0.6
-                                                            set checkBoxOne to checkbox 1 of tab group 1 of window "Trackpad"
-                                                            click radio button "Scroll & Zoom" of tab group 1 of window "Trackpad"
-                                                            tell checkBoxOne to if value is 0 then click
-                                                            tell application "System Preferences" to quit
-                                                        end tell
-                                                    end tell
-                                                end try
-                                            """
-            runAppleScript(source: enableNaturalScrolling)
+        guard let deviceName = device.name() else { return }
+        print("device removed: \(deviceName)")
+        nonNaturalScrollingDevices.forEach { nonNaturalScrollingDevice in
+            if deviceName.contains(nonNaturalScrollingDevice) {
+                runAppleScript(enableScrolling: 0)
+            }
         }
     }
     
     
-    private func runAppleScript(source: String) {
+    private func runAppleScript(enableScrolling: Int) {
+        let source =    """
+                        try
+                            tell application "System Preferences"
+                                set current pane to pane "com.apple.preference.trackpad"
+                            end tell
+                            tell application "System Events"
+                                tell process "System Preferences"
+                                    delay 0.6
+                                    set checkBoxOne to checkbox 1 of tab group 1 of window "Trackpad"
+                                    click radio button "Scroll & Zoom" of tab group 1 of window "Trackpad"
+                                    tell checkBoxOne to if value is \(enableScrolling) then click
+                                    tell application "System Preferences" to quit
+                                end tell
+                            end tell
+                        end try
+                        """
         if let scriptObject = NSAppleScript(source: source) {
             var error: NSDictionary?
             scriptObject.executeAndReturnError(&error)

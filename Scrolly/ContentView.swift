@@ -8,10 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    let usbDelegate = USBDelegate()
+    @StateObject var usbDelegate = USBDelegate()
+
     var body: some View {
-        Text("Hello, World!")
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        List(usbDelegate.currentDevices) { device in
+            VStack(alignment: .leading) {
+                Text(device.name)
+            }
+        }
+//        Text("Hello, Scroller!")
+//            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
