@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Scrolly
+//  Scrolln
 //
 //  Created by Luca Archidiacono on 31.01.21.
 //
@@ -17,14 +17,14 @@ struct ContentView: View {
         } else {
             List {
                 ForEach(usbDelegate.currentDevices) { device in
-                    DeviceView(usbDelegate: usbDelegate, device: device)
+                    DeviceListView(usbDelegate: usbDelegate, device: device)
                 }
-            }
-        }
-    }
+			}
+		}
+	}
 }
 
-struct DeviceView: View {
+struct DeviceListView: View {
     @ObservedObject var usbDelegate: USBDelegate
     let device: CurrentDevice
     
@@ -33,21 +33,17 @@ struct DeviceView: View {
             HStack() {
                 Text(device.name)
                 Spacer()
-                Toggle("Natrual Scroll",
-                       isOn: $usbDelegate.isNonNaturalScrollable)
-                    .onChange(of: usbDelegate.isNonNaturalScrollable) { value in
-                        if value {
-                            usbDelegate.nonNaturalScrollingDevices.append(device.name)
-                            usbDelegate.updateSystemPreferences(deviceName: device.name,
-                                                                enableScrolling: 1)
-                        } else {
-                            usbDelegate.updateSystemPreferences(deviceName: device.name,
-                                                                enableScrolling: 0)
-                            usbDelegate.nonNaturalScrollingDevices.removeAll(where: { $0 == device.name })
-                        }
-                    }
+				Toggle("Normal Scroll", isOn: binding(for: device.name))
             }
         }
         Divider()
     }
+	
+	private func binding(for key: String) -> Binding<Bool> {
+		return Binding(get: {
+			return self.usbDelegate.markedDevices2.contains(where: { $0 == key })
+		}, set: {
+			self.usbDelegate.updateMarkedDevices(newValue: key, isEnabled: $0)
+		})
+	}
 }

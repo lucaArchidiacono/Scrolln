@@ -1,6 +1,6 @@
 //
 //  USBWatcher.swift
-//  Scrolly
+//  Scrolln
 //
 //  Created by Luca Archidiacono on 31.01.21.
 //
@@ -10,7 +10,7 @@ import IOKit
 import IOKit.usb
 import IOKit.usb.IOUSBLib
 
-protocol USBWatcherDelegate: class {
+protocol USBWatcherDelegate: AnyObject {
     /// Called on the main thread when a device is connected.
     func deviceAdded(_ device: io_object_t)
     /// Called on the main thread when a device is disconnected.

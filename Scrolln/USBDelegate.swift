@@ -1,6 +1,6 @@
 //
 //  USBDelegate.swift
-//  Scrolly
+//  Scrolln
 //
 //  Created by Luca Archidiacono on 01.02.21.
 //
@@ -17,71 +17,60 @@ struct CurrentDevice: Identifiable {
 
 class USBDelegate: USBWatcherDelegate, ObservableObject {
     private var usbWatcher: USBWatcher!
+	private let userDefaultKey = "markedDevices"
 
     @Published var currentDevices = [CurrentDevice]()
-    @Published var nonNaturalScrollingDevices = [String]()
-    @Published var isNonNaturalScrollable = false
+	@Published private(set) var markedDevices2: [String]
 
     init() {
-        self.usbWatcher = USBWatcher(delegate: self)
+		self.markedDevices2 = UserDefaults.standard.object(forKey: userDefaultKey) as? [String] ?? [String]()
+		self.usbWatcher = USBWatcher(delegate: self)
     }
     
     internal func deviceAdded(_ device: io_object_t) {
         guard let deviceName = device.name() else { return }
         print("device added: \(deviceName)")
-        if nonNaturalScrollingDevices.contains(deviceName) {
-            isNonNaturalScrollable = true
-            currentDevices.append(CurrentDevice(name: deviceName))
-            updateSystemPreferences(deviceName: deviceName,
-                                    enableScrolling: 1)
-        } else {
-            currentDevices.append(CurrentDevice(name: deviceName))
-        }
+		currentDevices.append(CurrentDevice(name: deviceName))
+		toggleNaturalScrolling()
     }
 
     internal func deviceRemoved(_ device: io_object_t) {
         guard let deviceName = device.name() else { return }
         print("device removed: \(deviceName)")
-        if nonNaturalScrollingDevices.contains(deviceName) {
-            currentDevices.removeAll(where: { $0.name == deviceName })
-            updateSystemPreferences(deviceName: deviceName,
-                                    enableScrolling: 0)
-        } else {
-            currentDevices.removeAll(where: { $0.name == deviceName })
-        }
+		currentDevices.removeAll { $0.name == deviceName }
+		toggleNaturalScrolling()
     }
-    
-    func updateSystemPreferences(deviceName: String, enableScrolling: Int) {
-        nonNaturalScrollingDevices.forEach { nonNaturalScrollingDevice in
-            if deviceName.contains(nonNaturalScrollingDevice) {
-                runAppleScript(enableScrolling: enableScrolling)
-            }
-        }
-    }
-    
-    private func runAppleScript(enableScrolling: Int) {
-        let source =    """
-                        try
-                            tell application "System Preferences"
-                                set current pane to pane "com.apple.preference.trackpad"
-                            end tell
-                            tell application "System Events"
-                                tell process "System Preferences"
-                                    delay 0.6
-                                    set checkBoxOne to checkbox 1 of tab group 1 of window "Trackpad"
-                                    click radio button "Scroll & Zoom" of tab group 1 of window "Trackpad"
-                                    tell checkBoxOne to if value is \(enableScrolling) then click
-                                    tell application "System Preferences" to quit
-                                end tell
-                            end tell
-                        end try
-                        """
-        if let scriptObject = NSAppleScript(source: source) {
-            var error: NSDictionary?
-            scriptObject.executeAndReturnError(&error)
-            if let err = error {
-                print(err)
-            }
-        }
-    }
+	
+	func updateMarkedDevices(newValue: String, isEnabled: Bool) {
+		if isEnabled {
+			if !markedDevices2.contains(newValue) { markedDevices2.append(newValue) }
+		} else {
+			markedDevices2.removeAll { $0 == newValue }
+		}
+		UserDefaults.standard.set(markedDevices2, forKey: userDefaultKey)
+		toggleNaturalScrolling()
+	}
+	
+	//For Debugging Purpose
+	private func log() {
+		print("\n--------------------")
+		print("currentDevices List:")
+		currentDevices.forEach { device in
+			print("-\(device.name)")
+		}
+		print("markedDevices2 List:")
+		markedDevices2.forEach { deviceName in
+			print("-\(deviceName)")
+		}
+		print("--------------------\n")
+	}
+	
+	private func toggleNaturalScrolling() {
+		//If currently the natural-scroll direction is set to "false"/"disabled", then set it to "true"
+		if swipeScrollDirection() && !markedDevices2.isEmpty {
+			setSwipeScrollDirection(false)
+		} else {
+			setSwipeScrollDirection(true)
+		}
+	}
 }

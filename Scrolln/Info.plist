@@ -28,8 +28,6 @@
 	<true/>
 	<key>NSAppleEventsUsageDescription</key>
 	<string>Do you want to allow scroll automation for this app?</string>
-	<key>NSMainStoryboardFile</key>
-	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
