@@ -26,24 +26,25 @@ struct ContentView: View {
 
 struct DeviceListView: View {
     @ObservedObject var usbDelegate: USBDelegate
-    let device: CurrentDevice
+    let device: Device
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack() {
                 Text(device.name)
                 Spacer()
-				Toggle("Normal Scroll", isOn: binding(for: device.name))
+				Toggle("Normal Scroll", isOn: binding(for: device))
             }
         }
         Divider()
     }
 	
-	private func binding(for key: String) -> Binding<Bool> {
-		return Binding(get: {
-			return self.usbDelegate.markedDevices2.contains(where: { $0 == key })
+	private func binding(for device: Device) -> Binding<Bool> {
+		return Binding(
+		get: {
+			return self.usbDelegate.markedDevices.contains(where: { $0.name == device.name })
 		}, set: {
-			self.usbDelegate.updateMarkedDevices(newValue: key, isEnabled: $0)
+			self.usbDelegate.updateMarkedDevices(newValue: device, isEnabled: $0)
 		})
 	}
 }
