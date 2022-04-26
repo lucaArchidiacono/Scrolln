@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var usbDelegate: USBDelegate
+    @ObservedObject var viewModel: ContentViewModel
     
     var body: some View {
-        if usbDelegate.currentDevices.isEmpty {
+        if viewModel.currentDevices.isEmpty {
             Text("It seems like there are no devices connected to your Mac 🧐")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             List {
-                ForEach(usbDelegate.currentDevices) { device in
-                    DeviceListView(usbDelegate: usbDelegate, device: device)
+                ForEach(viewModel.currentDevices) { device in
+                    DeviceListView(viewModel: viewModel, device: device)
                 }
 			}
 		}
@@ -25,7 +25,7 @@ struct ContentView: View {
 }
 
 struct DeviceListView: View {
-    @ObservedObject var usbDelegate: USBDelegate
+    @ObservedObject var viewModel: ContentViewModel
     let device: Device
     
     var body: some View {
@@ -42,9 +42,9 @@ struct DeviceListView: View {
 	private func binding(for device: Device) -> Binding<Bool> {
 		return Binding(
 		get: {
-			return self.usbDelegate.markedDevices.contains(where: { $0.name == device.name })
+			return self.viewModel.markedDevices.contains(where: { $0.name == device.name })
 		}, set: {
-			self.usbDelegate.updateMarkedDevices(newValue: device, isEnabled: $0)
+			self.viewModel.updateMarkedDevices(newValue: device, isEnabled: $0)
 		})
 	}
 }

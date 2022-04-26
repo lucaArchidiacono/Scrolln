@@ -1,5 +1,5 @@
 //
-//  USBDelegate.swift
+//  ContentViewModel.swift
 //  Scrolln
 //
 //  Created by Luca Archidiacono on 01.02.21.
@@ -15,7 +15,7 @@ struct Device: Identifiable {
     var name: String
 }
 
-class USBDelegate: USBWatcherDelegate, ObservableObject {
+class ContentViewModel: USBWatcherDelegate, ObservableObject {
     private var usbWatcher: USBWatcher!
 	private let userDefaultKey = "markedDevices"
 
@@ -32,14 +32,14 @@ class USBDelegate: USBWatcherDelegate, ObservableObject {
 		self.usbWatcher = USBWatcher(delegate: self)
     }
     
-    internal func deviceAdded(_ device: io_object_t) {
+    internal func deviceAdded(_ device: IOHIDDevice) {
         guard let deviceName = device.name() else { return }
         print("device added: \(deviceName)")
 		currentDevices.append(Device(name: deviceName))
 		toggleNaturalScrolling()
     }
 
-    internal func deviceRemoved(_ device: io_object_t) {
+    internal func deviceRemoved(_ device: IOHIDDevice) {
         guard let deviceName = device.name() else { return }
         print("device removed: \(deviceName)")
 		currentDevices.removeAll { $0.name == deviceName }
@@ -71,7 +71,7 @@ class USBDelegate: USBWatcherDelegate, ObservableObject {
 }
 
 // MARK: Helpers
-extension USBDelegate {
+extension ContentViewModel {
 	//For Debugging Purpose
 	private func logDevices() {
 		print("\n--------------------")
