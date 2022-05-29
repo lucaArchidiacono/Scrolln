@@ -51,7 +51,7 @@ class ContentViewModel: USBWatcherDelegate, ObservableObject {
 		} else {
 			markedDevices.removeAll { $0.name == newValue.name }
 		}
-		UserDefaults.standard.set(markedDevices.flatMap { $0.name }, forKey: userDefaultKey)
+		UserDefaults.standard.set(markedDevices.compactMap { $0.name }, forKey: userDefaultKey)
 		toggleNaturalScrolling()
 	}
 	
