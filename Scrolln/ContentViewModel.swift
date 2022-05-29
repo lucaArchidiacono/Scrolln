@@ -23,9 +23,8 @@ class ContentViewModel: USBWatcherDelegate, ObservableObject {
 	@Published private(set) var markedDevices: [Device]
 
     init() {
-		if let data = UserDefaults.standard.object(forKey: userDefaultKey) as? Data,
-		   let decodedDevices = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [Device] {
-			self.markedDevices = decodedDevices
+		if let data = UserDefaults.standard.object(forKey: userDefaultKey) as? [String] {
+			self.markedDevices = data.compactMap { Device(name: $0) }
 		} else {
 			self.markedDevices = [Device]()
 		}
@@ -52,8 +51,7 @@ class ContentViewModel: USBWatcherDelegate, ObservableObject {
 		} else {
 			markedDevices.removeAll { $0.name == newValue.name }
 		}
-		let encodedData = try? NSKeyedArchiver.archivedData(withRootObject: markedDevices, requiringSecureCoding: false)
-		UserDefaults.standard.set(encodedData, forKey: userDefaultKey)
+		UserDefaults.standard.set(markedDevices.flatMap { $0.name }, forKey: userDefaultKey)
 		toggleNaturalScrolling()
 	}
 	
