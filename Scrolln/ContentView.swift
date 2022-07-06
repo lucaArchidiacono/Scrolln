@@ -11,14 +11,12 @@ struct ContentView: View {
     @ObservedObject var viewModel: ContentViewModel
     
     var body: some View {
-        if viewModel.currentDevices.isEmpty {
+        if viewModel.devices.isEmpty {
             Text("It seems like there are no devices connected to your Mac 🧐")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
-            List {
-                ForEach(viewModel.currentDevices) { device in
-                    DeviceListView(viewModel: viewModel, device: device)
-                }
+			List(viewModel.devices) { device in
+				DeviceListView(viewModel: viewModel, device: device)
 			}
 		}
 	}
@@ -31,7 +29,7 @@ struct DeviceListView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack() {
-                Text(device.name)
+				Text("\(device.manufacturer) : \(device.name)")
                 Spacer()
 				Toggle("Normal Scroll", isOn: binding(for: device))
             }
@@ -42,7 +40,7 @@ struct DeviceListView: View {
 	private func binding(for device: Device) -> Binding<Bool> {
 		return Binding(
 		get: {
-			return self.viewModel.markedDevices.contains(where: { $0.name == device.name })
+			return self.viewModel.devices.contains { $0.productID == device.productID && $0.isMarked }
 		}, set: {
 			self.viewModel.updateMarkedDevices(newValue: device, isEnabled: $0)
 		})

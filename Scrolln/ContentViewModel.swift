@@ -10,60 +10,78 @@ import IOKit
 import IOKit.usb
 import IOKit.hid
 
-struct Device: Identifiable {
-    var id = UUID()
-    var name: String
-}
-
 class ContentViewModel: USBWatcherDelegate, ObservableObject {
     private var usbWatcher: USBWatcher!
-	private let userDefaultKey = "markedDevices"
+	private let userDefaultKey = "devices"
+	private var markedDevices: [Int:Device]
 
-    @Published var currentDevices = [Device]()
-	@Published private(set) var markedDevices: [Device]
-
+	@Published private(set) var devices: [Device] = []
+	
     init() {
-		if let data = UserDefaults.standard.object(forKey: userDefaultKey) as? [String] {
-			self.markedDevices = data.compactMap { Device(name: $0) }
+		if let data = UserDefaults.standard.data(forKey: userDefaultKey),
+		   let markedDevices = try? JSONDecoder().decode([Int:Device].self, from: data) {
+			self.markedDevices = markedDevices
 		} else {
-			self.markedDevices = [Device]()
+			self.markedDevices = [:]
 		}
 		self.usbWatcher = USBWatcher(delegate: self)
     }
     
     internal func deviceAdded(_ device: IOHIDDevice) {
-        guard let deviceName = device.name() else { return }
-        print("device added: \(deviceName)")
-		currentDevices.append(Device(name: deviceName))
-		toggleNaturalScrolling()
+		guard let name = device.name(),
+			  let manufacturer = device.manufacturer(),
+			  let productID = device.productID() else { return }
+        print("device added: \(name)")
+		
+		if markedDevices[productID] != nil {
+			devices.append(Device(name: name, manufacturer: manufacturer, productID: productID, isMarked: true))
+			toggleNaturalScrolling()
+		} else {
+			devices.append(Device(name: name, manufacturer: manufacturer, productID: productID, isMarked: false))
+		}
     }
 
     internal func deviceRemoved(_ device: IOHIDDevice) {
-        guard let deviceName = device.name() else { return }
+		guard let deviceName = device.name(), let productID = device.productID() else { return }
         print("device removed: \(deviceName)")
-		currentDevices.removeAll { $0.name == deviceName }
+		
+		devices.removeAll { $0.productID == productID }
 		toggleNaturalScrolling()
     }
 	
 	func updateMarkedDevices(newValue: Device, isEnabled: Bool) {
-		if isEnabled {
-			if !markedDevices.contains(where: { $0.name == newValue.name }) { markedDevices.append(newValue) }
+		guard let index = devices.firstIndex(where: { $0.productID == newValue.productID }) else { return }
+		
+		let device = Device(name: newValue.name,
+							manufacturer: newValue.manufacturer,
+							productID: newValue.productID,
+							isMarked: isEnabled)
+		devices[index] = device
+		
+		if markedDevices[newValue.productID] != nil && !isEnabled {
+			markedDevices.removeValue(forKey: newValue.productID)
 		} else {
-			markedDevices.removeAll { $0.name == newValue.name }
+			markedDevices[newValue.productID] = device
 		}
-		UserDefaults.standard.set(markedDevices.compactMap { $0.name }, forKey: userDefaultKey)
+		
 		toggleNaturalScrolling()
+
+		guard let data = try? JSONEncoder().encode(markedDevices) else { return }
+		UserDefaults.standard.set(data, forKey: userDefaultKey)
 	}
 	
 	private func toggleNaturalScrolling() {
 		//If currently the natural-scroll direction is set to "false"/"disabled", then set it to "true"
-		if swipeScrollDirection() && !markedDevices.isEmpty {
-			guard markedDevices.first(where: { markedDevice in
-				currentDevices.contains(where: { $0.name ==  markedDevice.name})
-			}) != nil else { return }
-			setSwipeScrollDirection(false)
+		let hasMarkedDevice = devices.contains(where: { $0.isMarked })
+		
+		if swipeScrollDirection() {
+			if !devices.isEmpty && hasMarkedDevice {
+				setSwipeScrollDirection(false)
+			}
 		} else {
-			setSwipeScrollDirection(true)
+			if !hasMarkedDevice {
+				setSwipeScrollDirection(true)
+			}
 		}
 	}
 }
@@ -73,13 +91,13 @@ extension ContentViewModel {
 	//For Debugging Purpose
 	private func logDevices() {
 		print("\n--------------------")
-		print("currentDevices List:")
-		currentDevices.forEach { device in
-			print("-\(device.name)")
+		print("current device List:")
+		devices.forEach { device in
+			print("-\(device.productID):\(device.name)")
 		}
 		print("markedDevices List:")
-		markedDevices.forEach { deviceName in
-			print("-\(deviceName)")
+		markedDevices.forEach { key, device in
+			print("-\(key):\(device.name)")
 		}
 		print("--------------------\n")
 	}

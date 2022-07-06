@@ -7,25 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		81412F422874A6C4009E21EF /* PreferencePanesSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81412F412874A6C4009E21EF /* PreferencePanesSupport.framework */; };
+		81412F432874A6C4009E21EF /* PreferencePanesSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 81412F412874A6C4009E21EF /* PreferencePanesSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8152DAB525C861FA00F690AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152DAB425C861FA00F690AB /* AppDelegate.swift */; };
 		8152DAB725C861FA00F690AB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152DAB625C861FA00F690AB /* ContentView.swift */; };
 		8152DABC25C861FB00F690AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8152DABB25C861FB00F690AB /* Assets.xcassets */; };
 		8152DAF525C863C600F690AB /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152DAF425C863C600F690AB /* ContentViewModel.swift */; };
+		815556F02872E5B300F9C570 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815556EF2872E5B300F9C570 /* DeviceModel.swift */; };
 		8155C7AA27E48A06009B7C90 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155C7A927E48A06009B7C90 /* main.swift */; };
-		8155C7B227E4B46B009B7C90 /* PreferencePanesSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8155C7B127E4B46B009B7C90 /* PreferencePanesSupport.framework */; };
-		8155C7B327E4B46B009B7C90 /* PreferencePanesSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8155C7B127E4B46B009B7C90 /* PreferencePanesSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C49F054D28180E170075B0AA /* USBWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49F054C28180E170075B0AA /* USBWatcher.swift */; };
 		C49F054F28181D030075B0AA /* IOHIDDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49F054E28181D030075B0AA /* IOHIDDeviceExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		8155C7B427E4B46B009B7C90 /* Embed Frameworks */ = {
+		81412F442874A6C4009E21EF /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8155C7B327E4B46B009B7C90 /* PreferencePanesSupport.framework in Embed Frameworks */,
+				81412F432874A6C4009E21EF /* PreferencePanesSupport.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -33,6 +34,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		81412F3D2874A4FE009E21EF /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = System/Library/Frameworks/PreferencePanes.framework; sourceTree = SDKROOT; };
+		81412F412874A6C4009E21EF /* PreferencePanesSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanesSupport.framework; path = ../../../../../System/Library/PrivateFrameworks/PreferencePanesSupport.framework; sourceTree = "<group>"; };
 		8152DAB125C861FA00F690AB /* Scrolln.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scrolln.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8152DAB425C861FA00F690AB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8152DAB625C861FA00F690AB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -40,6 +43,7 @@
 		8152DAC325C861FB00F690AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8152DAC425C861FB00F690AB /* Scrolln.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Scrolln.entitlements; sourceTree = "<group>"; };
 		8152DAF425C863C600F690AB /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		815556EF2872E5B300F9C570 /* DeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModel.swift; sourceTree = "<group>"; };
 		8155C7A927E48A06009B7C90 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8155C7AD27E4AC5C009B7C90 /* Scrolln-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Scrolln-Bridging-Header.h"; sourceTree = "<group>"; };
 		8155C7B127E4B46B009B7C90 /* PreferencePanesSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanesSupport.framework; path = ../../../../System/Library/PrivateFrameworks/PreferencePanesSupport.framework; sourceTree = "<group>"; };
@@ -52,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8155C7B227E4B46B009B7C90 /* PreferencePanesSupport.framework in Frameworks */,
+				81412F422874A6C4009E21EF /* PreferencePanesSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +93,7 @@
 				8152DAF425C863C600F690AB /* ContentViewModel.swift */,
 				8155C7AD27E4AC5C009B7C90 /* Scrolln-Bridging-Header.h */,
 				C49F054C28180E170075B0AA /* USBWatcher.swift */,
+				815556EF2872E5B300F9C570 /* DeviceModel.swift */,
 			);
 			path = Scrolln;
 			sourceTree = "<group>";
@@ -104,6 +109,8 @@
 		81F9BE8527E480ED00E7B2FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				81412F412874A6C4009E21EF /* PreferencePanesSupport.framework */,
+				81412F3D2874A4FE009E21EF /* PreferencePanes.framework */,
 				8155C7B127E4B46B009B7C90 /* PreferencePanesSupport.framework */,
 			);
 			name = Frameworks;
@@ -119,7 +126,7 @@
 				8152DAAD25C861FA00F690AB /* Sources */,
 				8152DAAE25C861FA00F690AB /* Frameworks */,
 				8152DAAF25C861FA00F690AB /* Resources */,
-				8155C7B427E4B46B009B7C90 /* Embed Frameworks */,
+				81412F442874A6C4009E21EF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -180,6 +187,7 @@
 			files = (
 				8155C7AA27E48A06009B7C90 /* main.swift in Sources */,
 				8152DAB525C861FA00F690AB /* AppDelegate.swift in Sources */,
+				815556F02872E5B300F9C570 /* DeviceModel.swift in Sources */,
 				8152DAF525C863C600F690AB /* ContentViewModel.swift in Sources */,
 				8152DAB725C861FA00F690AB /* ContentView.swift in Sources */,
 				C49F054D28180E170075B0AA /* USBWatcher.swift in Sources */,
