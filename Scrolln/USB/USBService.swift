@@ -15,7 +15,7 @@ protocol USBServiceDelegate: AnyObject {
 }
 
 public class USBService {
-	private let dispatchQueue = DispatchQueue(label: "com.luca.Scrolln.USBService", qos: .utility)
+	private let dispatchQueue = DispatchQueue(label: "io.lucaa.Scrolln.USBService", qos: .utility)
 	private let logger = Logger.default
 	private let runLoop: CFRunLoop = CFRunLoopGetCurrent()
 
