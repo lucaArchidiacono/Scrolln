@@ -7,16 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C69DDDD2B372EC900E8C235 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C69DDDC2B372EC900E8C235 /* StorageManager.swift */; };
+		5C69DDDF2B372F2400E8C235 /* Logger+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C69DDDE2B372F2400E8C235 /* Logger+.swift */; };
+		5C69DDE12B3745B800E8C235 /* DeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C69DDE02B3745B800E8C235 /* DeviceView.swift */; };
+		5CD6FBE92B3C314A009DE26B /* HoverableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD6FBE82B3C314A009DE26B /* HoverableButton.swift */; };
 		81412F422874A6C4009E21EF /* PreferencePanesSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81412F412874A6C4009E21EF /* PreferencePanesSupport.framework */; };
 		81412F432874A6C4009E21EF /* PreferencePanesSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 81412F412874A6C4009E21EF /* PreferencePanesSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8152DAB525C861FA00F690AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152DAB425C861FA00F690AB /* AppDelegate.swift */; };
 		8152DAB725C861FA00F690AB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152DAB625C861FA00F690AB /* ContentView.swift */; };
 		8152DABC25C861FB00F690AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8152DABB25C861FB00F690AB /* Assets.xcassets */; };
 		8152DAF525C863C600F690AB /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152DAF425C863C600F690AB /* ContentViewModel.swift */; };
-		815556F02872E5B300F9C570 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815556EF2872E5B300F9C570 /* DeviceModel.swift */; };
+		815556F02872E5B300F9C570 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815556EF2872E5B300F9C570 /* Device.swift */; };
 		8155C7AA27E48A06009B7C90 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155C7A927E48A06009B7C90 /* main.swift */; };
-		C49F054D28180E170075B0AA /* USBWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49F054C28180E170075B0AA /* USBWatcher.swift */; };
-		C49F054F28181D030075B0AA /* IOHIDDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49F054E28181D030075B0AA /* IOHIDDeviceExtension.swift */; };
+		C49F054D28180E170075B0AA /* USBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49F054C28180E170075B0AA /* USBService.swift */; };
+		C49F054F28181D030075B0AA /* IOHIDDevice+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49F054E28181D030075B0AA /* IOHIDDevice+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,6 +38,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5C69DDDC2B372EC900E8C235 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		5C69DDDE2B372F2400E8C235 /* Logger+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+.swift"; sourceTree = "<group>"; };
+		5C69DDE02B3745B800E8C235 /* DeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceView.swift; sourceTree = "<group>"; };
+		5CD6FBE82B3C314A009DE26B /* HoverableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverableButton.swift; sourceTree = "<group>"; };
 		81412F3D2874A4FE009E21EF /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = System/Library/Frameworks/PreferencePanes.framework; sourceTree = SDKROOT; };
 		81412F412874A6C4009E21EF /* PreferencePanesSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanesSupport.framework; path = ../../../../../System/Library/PrivateFrameworks/PreferencePanesSupport.framework; sourceTree = "<group>"; };
 		8152DAB125C861FA00F690AB /* Scrolln.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scrolln.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,12 +51,12 @@
 		8152DAC325C861FB00F690AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8152DAC425C861FB00F690AB /* Scrolln.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Scrolln.entitlements; sourceTree = "<group>"; };
 		8152DAF425C863C600F690AB /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
-		815556EF2872E5B300F9C570 /* DeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModel.swift; sourceTree = "<group>"; };
+		815556EF2872E5B300F9C570 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		8155C7A927E48A06009B7C90 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8155C7AD27E4AC5C009B7C90 /* Scrolln-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Scrolln-Bridging-Header.h"; sourceTree = "<group>"; };
 		8155C7B127E4B46B009B7C90 /* PreferencePanesSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanesSupport.framework; path = ../../../../System/Library/PrivateFrameworks/PreferencePanesSupport.framework; sourceTree = "<group>"; };
-		C49F054C28180E170075B0AA /* USBWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USBWatcher.swift; sourceTree = "<group>"; };
-		C49F054E28181D030075B0AA /* IOHIDDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOHIDDeviceExtension.swift; sourceTree = "<group>"; };
+		C49F054C28180E170075B0AA /* USBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USBService.swift; sourceTree = "<group>"; };
+		C49F054E28181D030075B0AA /* IOHIDDevice+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IOHIDDevice+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +71,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5CBEF4582B378F990091D4DA /* USB */ = {
+			isa = PBXGroup;
+			children = (
+				C49F054C28180E170075B0AA /* USBService.swift */,
+			);
+			path = USB;
+			sourceTree = "<group>";
+		};
+		5CBEF4592B378FA80091D4DA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				815556EF2872E5B300F9C570 /* Device.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5CBEF45A2B378FB90091D4DA /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				5C69DDDC2B372EC900E8C235 /* StorageManager.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		5CBEF45B2B378FCA0091D4DA /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5C69DDE02B3745B800E8C235 /* DeviceView.swift */,
+				5CD6FBE82B3C314A009DE26B /* HoverableButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		5CBEF45C2B378FD70091D4DA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8152DAB625C861FA00F690AB /* ContentView.swift */,
+				8152DAF425C863C600F690AB /* ContentViewModel.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		8152DAA825C861FA00F690AB = {
 			isa = PBXGroup;
 			children = (
@@ -83,27 +133,29 @@
 		8152DAB325C861FA00F690AB /* Scrolln */ = {
 			isa = PBXGroup;
 			children = (
-				8152DAE925C862C800F690AB /* extensions */,
+				5CBEF45C2B378FD70091D4DA /* Views */,
+				5CBEF45B2B378FCA0091D4DA /* Components */,
+				5CBEF45A2B378FB90091D4DA /* Storage */,
+				5CBEF4592B378FA80091D4DA /* Models */,
+				5CBEF4582B378F990091D4DA /* USB */,
+				8152DAE925C862C800F690AB /* Extensions */,
 				8152DAB425C861FA00F690AB /* AppDelegate.swift */,
 				8155C7A927E48A06009B7C90 /* main.swift */,
-				8152DAB625C861FA00F690AB /* ContentView.swift */,
 				8152DABB25C861FB00F690AB /* Assets.xcassets */,
 				8152DAC325C861FB00F690AB /* Info.plist */,
 				8152DAC425C861FB00F690AB /* Scrolln.entitlements */,
-				8152DAF425C863C600F690AB /* ContentViewModel.swift */,
 				8155C7AD27E4AC5C009B7C90 /* Scrolln-Bridging-Header.h */,
-				C49F054C28180E170075B0AA /* USBWatcher.swift */,
-				815556EF2872E5B300F9C570 /* DeviceModel.swift */,
 			);
 			path = Scrolln;
 			sourceTree = "<group>";
 		};
-		8152DAE925C862C800F690AB /* extensions */ = {
+		8152DAE925C862C800F690AB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C49F054E28181D030075B0AA /* IOHIDDeviceExtension.swift */,
+				C49F054E28181D030075B0AA /* IOHIDDevice+.swift */,
+				5C69DDDE2B372F2400E8C235 /* Logger+.swift */,
 			);
-			path = extensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		81F9BE8527E480ED00E7B2FA /* Frameworks */ = {
@@ -185,13 +237,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C69DDDF2B372F2400E8C235 /* Logger+.swift in Sources */,
 				8155C7AA27E48A06009B7C90 /* main.swift in Sources */,
+				5C69DDE12B3745B800E8C235 /* DeviceView.swift in Sources */,
+				5CD6FBE92B3C314A009DE26B /* HoverableButton.swift in Sources */,
 				8152DAB525C861FA00F690AB /* AppDelegate.swift in Sources */,
-				815556F02872E5B300F9C570 /* DeviceModel.swift in Sources */,
+				815556F02872E5B300F9C570 /* Device.swift in Sources */,
 				8152DAF525C863C600F690AB /* ContentViewModel.swift in Sources */,
 				8152DAB725C861FA00F690AB /* ContentView.swift in Sources */,
-				C49F054D28180E170075B0AA /* USBWatcher.swift in Sources */,
-				C49F054F28181D030075B0AA /* IOHIDDeviceExtension.swift in Sources */,
+				C49F054D28180E170075B0AA /* USBService.swift in Sources */,
+				C49F054F28181D030075B0AA /* IOHIDDevice+.swift in Sources */,
+				5C69DDDD2B372EC900E8C235 /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,7 +390,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.luca.Scrolln;
@@ -368,7 +424,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.luca.Scrolln;
