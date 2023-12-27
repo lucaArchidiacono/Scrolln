@@ -102,7 +102,7 @@ public class USBService {
 		// we don't want to display the already integrated tackpad in the list of available devices.
 		guard !isTrackpad(hidDevice), allHIDDevices[id] == nil else { return }
 
-		logger.info("ℹ️ Add new Device:\n\(String(describing: hidDevice))")
+		logger.info("🖱️ Add new Device:\n\(String(describing: hidDevice))")
 
 		allHIDDevices[id] = hidDevice
 
@@ -149,7 +149,7 @@ public class USBService {
 		// we don't want to display the already integrated tackpad in the list of available devices.
 		guard !isTrackpad(hidDevice), allHIDDevices[id] != nil else { return }
 
-		logger.info("ℹ️ Remove old Device: \(String(describing: hidDevice))")
+		logger.info("🔌 Remove old Device: \(String(describing: hidDevice))")
 
 		allHIDDevices.removeValue(forKey: id)
 
